@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, ReactNode } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Cog6ToothIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
@@ -8,8 +8,12 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Sidebar = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+interface SidebarProps {
+  sidebarOpen: boolean;
+  setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <>
       <Transition.Root show={sidebarOpen} as={Fragment}>

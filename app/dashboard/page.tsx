@@ -32,7 +32,7 @@ export default function Example() {
         ```
       */}
       <div>
-        <Sidebar />
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <div className="lg:pl-72">
           <div className="sticky top-0 z-40 lg:mx-auto lg:max-w-full yokko">
