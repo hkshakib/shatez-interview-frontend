@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import supaBase from "../home/supabaseConfig";
+import supaBase from "../auth/supabaseConfig";
 import dynamic from "next/dynamic";
 
 const DynamicLoginComponent = dynamic(() => import("./LoginComponent"), {
