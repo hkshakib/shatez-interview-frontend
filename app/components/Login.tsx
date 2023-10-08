@@ -13,11 +13,12 @@ const Login = () => {
     setLoading(true);
     const { data, error } = await supaBase.auth.signInWithOAuth({
       provider: "google",
+      options: {
+        redirectTo: "http://localhost:3000/dashboard",
+      },
     });
     if (error) {
-      console.log("Error Authenticating");
     } else {
-      console.log("Succesfully Authenticated");
     }
   };
   return (
