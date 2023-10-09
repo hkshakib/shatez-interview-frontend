@@ -44,9 +44,16 @@ export default function Example() {
     );
   } else {
     return (
-      <>
-        <div>SignIn First</div>
-      </>
+      <div className="flex flex-col justify-center items-center p-20 gap-8">
+        <span className="text-[20px]">
+          Please login Before accesing Dashboard
+        </span>
+        <button className="h-12 w-32 bg-black text-white rounded-lg hover:bg-white hover:text-black">
+          <a href="/auth" className="text-[18px]">
+            Login
+          </a>
+        </button>
+      </div>
     );
   }
 }
