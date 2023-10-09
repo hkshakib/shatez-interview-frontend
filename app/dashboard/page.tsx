@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import supaBase from "../auth/supabaseConfig";
 
 import Sidebar from "../components/SideBar";
 import NavBar from "../components/NavBar";
@@ -9,24 +10,43 @@ import Main from "../components/Main";
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  return (
-    <>
-      {/*
-        This example requires updating your template:
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
 
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
-      <div>
-        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data, error } = await supaBase.auth.getUser();
+      if (data && !error) {
+        setUserLoggedIn(true);
+        console.log(data);
+        localStorage.setItem("email", data.user.user_metadata.email);
+        localStorage.setItem("name", data.user.user_metadata.name);
+        localStorage.setItem("avatar", data.user.user_metadata.avatar_url);
+      }
+    };
 
-        <div className="lg:pl-72">
-          <NavBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-          <Main />
+    checkSession();
+  }, []);
+
+  console.log(userLoggedIn);
+
+  if (userLoggedIn) {
+    return (
+      <>
+        <div>
+          <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
+          <div className="lg:pl-72">
+            <NavBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+            <Main />
+          </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  } else {
+    return (
+      <>
+        <div>SignIn First</div>
+      </>
+    );
+  }
 }

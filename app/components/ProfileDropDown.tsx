@@ -1,10 +1,7 @@
 import { Fragment } from "react";
-
 import { Menu, Transition } from "@headlessui/react";
-
-import {
-  ChevronDownIcon,
-} from "@heroicons/react/20/solid";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import supaBase from "../auth/supabaseConfig";
 
 import { userNavigation } from "../dashboard/Data";
 
@@ -12,15 +9,21 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-
 const ProfileDropDown = () => {
+  const handleLogout = async () => {
+    await supaBase.auth.signOut();
+    localStorage.clear();
+  };
+  const avatar_url = localStorage.getItem("avatar");
+  const name = localStorage.getItem("name");
+  const email = localStorage.getItem("email");
   return (
     <Menu as="div" className="relative">
       <Menu.Button className="-m-1.5 flex items-center p-1.5">
         <span className="sr-only">Open user menu</span>
         <img
           className="h-8 w-8 rounded-full bg-gray-50"
-          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+          src={avatar_url!}
           alt=""
         />
         <span className="hidden lg:flex lg:items-center">
@@ -28,7 +31,7 @@ const ProfileDropDown = () => {
             className="ml-4 text-sm font-semibold leading-6 text-gray-900"
             aria-hidden="true"
           >
-            Tom Cook
+            {name}
           </span>
           <ChevronDownIcon
             className="ml-2 h-5 w-5 text-gray-400"
@@ -55,6 +58,7 @@ const ProfileDropDown = () => {
                     active ? "bg-gray-50" : "",
                     "block px-3 py-1 text-sm leading-6 text-gray-900"
                   )}
+                  onClick={handleLogout}
                 >
                   {item.name}
                 </a>

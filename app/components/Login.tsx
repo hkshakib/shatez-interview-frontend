@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import supaBase from "../auth/supabaseConfig";
 import dynamic from "next/dynamic";
+import supaBase from "../auth/supabaseConfig";
 
 const DynamicLoginComponent = dynamic(() => import("./LoginComponent"), {
   ssr: false,
@@ -19,6 +19,7 @@ const Login = () => {
     });
     if (error) {
     } else {
+      console.log("Data: ", data);
     }
   };
   return (
