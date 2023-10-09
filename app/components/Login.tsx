@@ -23,11 +23,13 @@ const Login = () => {
     }
   };
   return (
-    <div className="flex flex-col basis-[100%] justify-center items-center h-full-screen w-full">
-      <DynamicLoginComponent
-        handleGoogleLogin={handleGoogleLogin}
-        loading={loading}
-      />
+    <div className="flex flex-1 justify-center items-center bg-[#1F2937] text-white rounded-lg">
+      <div className="flex h-[50px] w-[300px] bg-[#1F2937] text-white rounded-lg hover:bg-white hover:text-black">
+        <DynamicLoginComponent
+          handleGoogleLogin={handleGoogleLogin}
+          loading={loading}
+        />
+      </div>
     </div>
   );
 };

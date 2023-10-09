@@ -9,7 +9,7 @@ const LoginComponent = ({
 }: LoginComponentProps) => {
   return (
     <button
-      className="flex justify-center items-center border"
+      className="flex basis-[100%] justify-center items-center border font-bold outline-[1px] rounded-lg"
       onClick={handleGoogleLogin}
       disabled={loading}
     >
