@@ -11,6 +11,7 @@ export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState("");
 
   useEffect(() => {
     const checkSession = async () => {
@@ -23,7 +24,7 @@ export default function Example() {
       }
       const email = data.user?.user_metadata.email;
       const name = data.user?.user_metadata.name;
-      const role = "admin";
+      const role = "users";
 
       // Check weather profile is already existed or not
       const { data: existingUserData, error: existingUserError } =
@@ -34,6 +35,7 @@ export default function Example() {
           .single();
 
       if (existingUserData && !existingUserError) {
+        setUserRole(existingUserData.role);
         console.log("User profile already exists:", existingUserData);
       } else {
         const { data: insertData, error: insertError } = await supaBase
@@ -50,7 +52,7 @@ export default function Example() {
           console.error("Error inserting user profile:", insertError);
           return;
         }
-
+        setUserRole(role);
         console.log("User profile inserted successfully:", insertData);
       }
     };
@@ -64,7 +66,11 @@ export default function Example() {
     return (
       <>
         <div>
-          <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          <Sidebar
+            sidebarOpen={sidebarOpen}
+            setSidebarOpen={setSidebarOpen}
+            role={userRole}
+          />
 
           <div className="lg:pl-72">
             <NavBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
