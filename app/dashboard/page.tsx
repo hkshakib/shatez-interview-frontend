@@ -21,6 +21,38 @@ export default function Example() {
         localStorage.setItem("name", data.user.user_metadata.name);
         localStorage.setItem("avatar", data.user.user_metadata.avatar_url);
       }
+      const email = data.user?.user_metadata.email;
+      const name = data.user?.user_metadata.name;
+      const role = "admin";
+
+      // Check weather profile is already existed or not
+      const { data: existingUserData, error: existingUserError } =
+        await supaBase
+          .from("user_profile")
+          .select("*")
+          .eq("email", email)
+          .single();
+
+      if (existingUserData && !existingUserError) {
+        console.log("User profile already exists:", existingUserData);
+      } else {
+        const { data: insertData, error: insertError } = await supaBase
+          .from("user_profile")
+          .upsert([
+            {
+              email,
+              name,
+              role,
+            },
+          ]);
+
+        if (insertError) {
+          console.error("Error inserting user profile:", insertError);
+          return;
+        }
+
+        console.log("User profile inserted successfully:", insertData);
+      }
     };
 
     checkSession();
