@@ -17,7 +17,6 @@ export default function Example() {
       const { data, error } = await supaBase.auth.getUser();
       if (data && !error) {
         setUserLoggedIn(true);
-        console.log(data);
         localStorage.setItem("email", data.user.user_metadata.email);
         localStorage.setItem("name", data.user.user_metadata.name);
         localStorage.setItem("avatar", data.user.user_metadata.avatar_url);

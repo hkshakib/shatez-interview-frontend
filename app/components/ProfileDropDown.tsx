@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import supaBase from "../auth/supabaseConfig";
@@ -10,20 +10,36 @@ function classNames(...classes: string[]) {
 }
 
 const ProfileDropDown = () => {
+  const [userData, setUserData] = useState({
+    name: null,
+    avatar: null,
+  });
+  useEffect(() => {
+    const retriveUser = async () => {
+      const {
+        data: { user },
+      } = await supaBase.auth.getUser();
+
+      const avatar = user!.user_metadata.avatar_url;
+      const name = user!.user_metadata.name;
+
+      setUserData({ name, avatar });
+    };
+
+    retriveUser();
+  }, []);
   const handleLogout = async () => {
     await supaBase.auth.signOut();
     localStorage.clear();
   };
-  const avatar_url = localStorage.getItem("avatar");
-  const name = localStorage.getItem("name");
-  const email = localStorage.getItem("email");
+
   return (
     <Menu as="div" className="relative">
       <Menu.Button className="-m-1.5 flex items-center p-1.5">
         <span className="sr-only">Open user menu</span>
         <img
           className="h-8 w-8 rounded-full bg-gray-50"
-          src={avatar_url!}
+          src={userData.avatar!}
           alt=""
         />
         <span className="hidden lg:flex lg:items-center">
@@ -31,7 +47,7 @@ const ProfileDropDown = () => {
             className="ml-4 text-sm font-semibold leading-6 text-gray-900"
             aria-hidden="true"
           >
-            {name}
+            {userData.name}
           </span>
           <ChevronDownIcon
             className="ml-2 h-5 w-5 text-gray-400"
