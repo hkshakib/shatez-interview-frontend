@@ -31,6 +31,7 @@ const ProfileDropDown = () => {
   const handleLogout = async () => {
     await supaBase.auth.signOut();
     localStorage.clear();
+    window.location.reload();
   };
 
   return (
