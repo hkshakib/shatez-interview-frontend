@@ -85,11 +85,11 @@ export default function Example() {
         <span className="text-[20px]">
           Please login Before accesing Dashboard
         </span>
-        <button className="h-12 w-32 bg-black text-white rounded-lg hover:bg-white hover:text-black">
-          <a href="/auth" className="text-[18px]">
+        <a href="/auth" className="text-[18px]">
+          <button className="h-12 w-32 bg-black text-white rounded-lg hover:bg-white hover:text-black">
             Login
-          </a>
-        </button>
+          </button>
+        </a>
       </div>
     );
   }
